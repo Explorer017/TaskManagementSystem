@@ -2,6 +2,8 @@
 <?php require "components/pagetop.php"?>
 <!-- Function for handling the form -->
 <?php
+    // Include LoginFunctions file
+    require "functions/LoginFunctions.php";
     // Start session for storing credentials
     session_start();
     // Define variables used in form, as well as error variables
@@ -11,14 +13,14 @@
 
     // Check if form has been submitted, and then check if each item is present
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
-        if (empty($_POST["usernameInput"])){
+        if (empty($_POST["username"])){
             $usernameError = "Username is Required";
             $isFormValid = false;
         } else {
-            $username = htmlspecialchars($_POST["email"]);
+            $username = htmlspecialchars($_POST["username"]);
         }
 
-        if (empty($_POST["passwordInput"])){
+        if (empty($_POST["password"])){
             $passwordError = "Password is Required";
             $isFormValid = false;
         } else {
@@ -46,13 +48,13 @@
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
             <p class="text-danger"><?php echo $loginError?></p>
             <div class="mb-3">
-                <label for="usernameInput">Username</label>
-                <input type="text" class="form-control" id="usernameInput"/>
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username"/>
                 <p class="text-danger"><?php echo $usernameError?></p>
             </div>
             <div class="mb-3">
-                <label for="passwordInput">Password</label>
-                <input type="password" class="form-control" id="passwordInput"/>
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password"/>
                 <p class="text-danger"><?php echo $passwordError?></p>
             </div>
             <div class="d-flex justify-content-center align-items-center">
