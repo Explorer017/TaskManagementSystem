@@ -64,7 +64,7 @@
         <hr/>
         <p class="text-center">OR</p>
         <div class="d-flex justify-content-center align-items-center">
-            <button class="btn btn-secondary text-center">Register</button>
+            <button class="btn btn-secondary text-center" onclick="location.href='Register.php'" class="buttonSubmit">Register</button>
         </div>
         
     </div>

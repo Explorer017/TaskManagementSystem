@@ -29,7 +29,7 @@
             <hr/>
             <p class="text-center">Already have an account?</p>
             <div class="d-flex justify-content-center align-items-center">
-                <button class="btn btn-secondary text-center">Log In</button>
+                <button class="btn btn-secondary text-center" onclick="location.href='LogIn.php'" class="buttonSubmit">Log In</button>
             </div>
 
         </div>
