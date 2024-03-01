@@ -27,15 +27,7 @@
             <li class="nav-link text-white">List 3</li>
         </ul>
         -->
-        <ul class="nav nav-pills flex-column mb-auto overflow-y-auto">
-
-        <?php
-            foreach (getListsForUser() as $listID){
-                echo '<li class="nav-link text-white">' . getListNameFromID($listID[0])[0][0] . '</li>';
-            }
-
-        ?>
-        </ul>
+        <?php require 'components/ListList.php'?>
 
         <div class="mt-auto">
             <hr/>
@@ -47,8 +39,7 @@
         </div>
     </div>
     <div class="p-3">
-        <?php require 'components/List.php';
-
+        <?php require 'components/TaskList.php';
         ?>
     </div>
 </main>

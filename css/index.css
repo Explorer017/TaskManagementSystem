@@ -2,3 +2,27 @@
     background-image: linear-gradient(180deg, #53736A 0%, #014554 70%);
     color: white;
 }
+
+.navbarList:link {
+    text-decoration: none;
+    color:white;
+}
+
+.navbarList:visited {
+    text-decoration: none;
+    color:white;
+}
+
+.navbarList:hover {
+    text-decoration: none;
+    color:white;
+}
+
+.navbarList:active {
+    text-decoration: none;
+    color:white;
+}
+
+.navbarListName{
+    width: 75%;
+}

@@ -3,7 +3,7 @@
 function checkUserListAccess($listID, $userID)
 {
     $db = new SQLite3("../db/database.db");
-    $SQL = "SELECT list_id FROM  UserLists WHERE user_id = :uid & list_id = :lid";
+    $SQL = "SELECT list_id FROM  UserLists WHERE user_id = :uid AND list_id = :lid";
     $stmt = $db->prepare($SQL);
 
     $stmt->bindValue(":lid", $listID, SQLITE3_INTEGER);
@@ -42,12 +42,12 @@ function getListName($listID)
 function getUncompletedTasksFromList($listID){
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
-    if(!checkUserListAccess($userID, $listID)){
+    if(!checkUserListAccess($listID, $userID)){
         return false;
     }
 
     $db = new SQLite3("../db/database.db");
-    $SQL = "SELECT * FROM  Tasks WHERE list_id = :lid AND task_completed = 0 ORDER BY order_in_list ";
+    $SQL = "SELECT * FROM Tasks WHERE list_id = :lid AND task_completed = 0 ORDER BY order_in_list ";
     $stmt = $db->prepare($SQL);
 
     $stmt->bindValue(":lid", $listID, SQLITE3_INTEGER);

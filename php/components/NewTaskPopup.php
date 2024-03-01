@@ -11,8 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'new'){
         $taskName = htmlspecialchars($_POST["TaskName"]);
     }
     if (empty($_POST["TaskDueDate"]) or $_POST["TaskDueDate"] == "none"){
-        $dueDateError = "Due Date is required";
-        $isFormValid = false;
+        //$dueDateError = "Due Date is required";
+        //$isFormValid = false;
+        $dueDate = null;
     } else {
         $dueDate = htmlspecialchars($_POST["TaskDueDate"]);
     }
@@ -29,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'new'){
 }
 ?>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="NewTaskTitle" aria-hidden="true">
+<div class="modal fade" id="NewTaskModal" tabindex="-1" aria-labelledby="NewTaskTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -45,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'new'){
                 <div class="row">
                     <div class="mb-3 col">
                         <label for="TaskDueDate" class="form-label">Due Date</label>
-                        <input type="date" class="form-control" id="TaskDueDate" name="TaskDueDate"/>
+                        <input type="date" class="form-control" id="TaskDueDate" name="TaskDueDate" value=""/>
                     </div>
                     <div class="mb-3 col">
                         <label for="TaskPriority" class="form-label">Priority</label>
