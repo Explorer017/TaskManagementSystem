@@ -76,3 +76,26 @@ function deleteList($listID){
     }
     return false;
 }
+
+function addUserToListAsCollaborator($listID, $collabUserID){
+    // verify the user is allowed to access this list
+    session_start();
+    $userID = getUIDFromCreds();
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+
+    $db = new SQLite3("../db/database.db");
+    $sql = "INSERT INTO UserLists (user_id, list_id, collaborator, observer) VALUES (:uid, :lid, 1, 0)";
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindValue(":uid", $collabUserID, SQLITE3_TEXT);
+    $stmt->bindValue(":lid", $listID, SQLITE3_TEXT);
+    $stmt->execute();
+
+    if($stmt){
+        return true;
+    }
+    return false;
+
+}

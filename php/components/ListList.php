@@ -11,7 +11,7 @@
                             <?php echo getListNameFromID($listID[0])[0][0]?>
                         </div>
                         <button class="btn btn-danger ms-auto" onclick="location.href='listAction.php?action=delete&listid=<?php echo $_GET["listid"]?>'"><i class="bi bi-trash"></i></button>
-                        <button class="btn btn-secondary"><i class="bi bi-three-dots"></i></button>
+                        <button class="btn btn-secondary"  onclick="location.href='modifyList.php?listid=<?php echo $_GET["listid"]?>'"><i class="bi bi-three-dots"></i></button>
                     </li>
                 <?php else:?>
                     <li class="hstack gap-3">
@@ -21,7 +21,7 @@
                             </a>
                         </div>
                         <button class="btn btn-outline-danger ms-auto" onclick="location.href='listAction.php?action=delete&listid=<?php echo $_GET["listid"]?>'"><i class="bi bi-trash"></i></button>
-                        <button class="btn btn-outline-secondary"><i class="bi bi-three-dots"></i></button>
+                        <button class="btn btn-outline-secondary" onclick="location.href='modifyList.php?listid=<?php echo $_GET["listid"]?>'"><i class="bi bi-three-dots"></i></button>
                     </li>
                 <?php endif;?>
             <?php endforeach;?>

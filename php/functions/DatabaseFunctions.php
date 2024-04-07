@@ -56,5 +56,21 @@ function getListNameFromID($listID){
     return $resultArray;
 }
 
+function LookupUIDFromName($username){
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT user_id FROM Users WHERE user_name = :username";
+    $stmt = $db->prepare($SQL);
+    $stmt->bindValue(":username", $username, SQLITE3_TEXT);
+
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if (!isset($resultArray)){
+        return false;
+    }
+    return $resultArray[0]['user_id'];
+}
 
 ?>
