@@ -29,4 +29,24 @@
     <?php endforeach;?>
     <hr/>
     <h5>Lists shared with me</h5>
+    <?php
+    foreach (getCollabListsForCurrentUser() as $listID):
+        if($listID[0] == $_GET['listid']):?>
+            <li class="hstack gap-3 nav-link active text-white">
+                <div class="">
+                    <?php echo getListNameFromID($listID[0])[0][0]?>
+                </div>
+                <button class="btn btn-danger ms-auto" onclick="location.href='listAction.php?action=leave&listid=<?php echo $_GET["listid"]?>'"><i class="bi bi-box-arrow-right"></i></button>
+            </li>
+        <?php else:?>
+            <li class="hstack gap-3">
+                <div class="nav-link text-white">
+                    <a class="navbarList" href="<?php echo "index.php?listid=$listID[0]"?>">
+                        <?php echo getListNameFromID($listID[0])[0][0]?>
+                    </a>
+                </div>
+                <button class="btn btn-outline-danger ms-auto" onclick="location.href='listAction.php?action=leave&listid=<?php echo $_GET["listid"]?>'"><i class="bi bi-box-arrow-right"></i></button>
+            </li>
+        <?php endif;?>
+    <?php endforeach;?>
 </ul>
