@@ -88,8 +88,8 @@ function addUserToListAsCollaborator($listID, $collabUserID){
     $sql = "INSERT INTO UserLists (user_id, list_id, collaborator, observer) VALUES (:uid, :lid, 1, 0)";
     $stmt = $db->prepare($sql);
 
-    $stmt->bindValue(":uid", $collabUserID, SQLITE3_TEXT);
-    $stmt->bindValue(":lid", $listID, SQLITE3_TEXT);
+    $stmt->bindValue(":uid", $collabUserID, SQLITE3_INTEGER);
+    $stmt->bindValue(":lid", $listID, SQLITE3_INTEGER);
     $stmt->execute();
 
     if($stmt){

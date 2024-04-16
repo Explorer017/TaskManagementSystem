@@ -32,12 +32,17 @@
 
         if($is_form_valid){
             $uid = LookupUIDFromName($collabUsername);
+            echo $collabUsername;
+            echo ' ';
+            echo $uid;
+            echo ' ';
+            echo $list_id;
             if(!$uid){
                 //TODO: ADD HANDLING HERE
                 echo 'error';
             }
             //TODO: FIX?
-            addUserToListAsCollaborator($uid, $list_id);
+            addUserToListAsCollaborator($list_id, $uid);
         }
 
     }
