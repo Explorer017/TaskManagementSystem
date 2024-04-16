@@ -34,7 +34,7 @@ function getOwnedListsForCurrentUser(){
         $resultArray [] = $row;
     }
     if (!isset($resultArray)){
-        return false;
+        return null;
     }
     return $resultArray;
 }
@@ -53,7 +53,7 @@ function getCollabListsForCurrentUser(){
         $resultArray [] = $row;
     }
     if (!isset($resultArray)){
-        return false;
+        return null;
     }
     return $resultArray;
 }
@@ -70,7 +70,7 @@ function getListNameFromID($listID){
         $resultArray [] = $row;
     }
     if (!isset($resultArray)){
-        return false;
+        return [[]];
     }
     return $resultArray;
 }
@@ -90,6 +90,22 @@ function LookupUIDFromName($username){
         return false;
     }
     return $resultArray[0]['user_id'];
+}
+
+function getListOwnerName($listid){
+    $db = new SQLite3("../db/database.db");
+    $SQL = 'SELECT Users.first_name || " " || Users.last_name  || " (" || Users.user_name || ")" AS "list_owner", UserLists.user_id FROM UserLists INNER JOIN Users on Users.user_id = UserLists.user_id WHERE list_id = :listid AND observer = 0 AND collaborator = 0';
+    $stmt = $db->prepare($SQL);
+    $stmt->bindValue(":listid", $listid, SQLITE3_TEXT);
+
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if (!isset($resultArray)){
+        return null;
+    }
+    return $resultArray[0]['list_owner'];
 }
 
 ?>

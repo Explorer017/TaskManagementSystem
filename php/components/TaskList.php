@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
     New Task
 </button>
 <?php else: ?>
-A list created by [placeholder]
+A list created by <b><?php echo getListOwnerName($listid)?></b>
 <?php endif;?>
 
 <br/><br/>
