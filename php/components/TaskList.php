@@ -1,4 +1,7 @@
 <?php require 'components/NewTaskPopup.php';
+$listid = isset($_GET['listid']) ? $_GET['listid'] : false;
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
     if(!empty($_GET['taskid'])){
         markTaskAsCompleted($_GET['taskid']);
@@ -6,18 +9,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'uncomplete'){
     if(!empty($_GET['taskid'])){
         markTaskAsUncompleted($_GET['taskid']);
-        header('Location: index.php?listid='.$_GET['listid']);
+        header('Location: index.php?listid='.$listid);
     }
 }
 ?>
 <h1>
-    <?php echo getListNameFromID($_GET['listid'])[0]['list_name']?>
+    <?php if (getListNameFromID($listid) != false) echo getListNameFromID($listid)[0]['list_name']?>
 </h1>
 
-<?php if(checkUserListAccess(htmlspecialchars($_GET["listid"]), getUIDFromCreds())): ?>
+<?php if ($listid != false):?>
+
+<?php if(checkUserListAccess(htmlspecialchars($listid), getUIDFromCreds())): ?>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#NewTaskModal">
     New Task
 </button>
+<?php else: ?>
+A list created by [placeholder]
 <?php endif;?>
 
 <br/><br/>
@@ -40,10 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
         <div class="p-3">
             <ol>
                 <?php
-                if (getUncompletedTasksFromList($_GET['listid']) != null):
-                foreach (getUncompletedTasksFromList($_GET['listid']) as $item):?>
+                if (getUncompletedTasksFromList($listid) != null):
+                foreach (getUncompletedTasksFromList($listid) as $item):?>
                     <ul>
-                        <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=complete&listid=".$_GET['listid'];?>" method="post">
+                        <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=complete&listid=".$listid;?>" method="post">
                             <div class="row">
                                 <button class='btn btn-primary col' style="flex: none; width: 10%; min-width: 100px; height: 10%; min-height: 100px;" type='submit' name=<?php echo $item['task_id']?>>✅</button>
                                 <div class="col">
@@ -76,10 +83,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
         <div class="p-3">
             <ol>
                 <?php
-                if (getCompletedTasksFromList($_GET['listid']) != null):
-                foreach (getCompletedTasksFromList($_GET['listid']) as $item):?>
+                if (getCompletedTasksFromList($listid) != null):
+                foreach (getCompletedTasksFromList($listid) as $item):?>
                     <ul>
-                        <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=uncomplete&listid=".$_GET['listid'];?>" method="post">
+                        <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=uncomplete&listid=".$listid;?>" method="post">
                             <div class="row">
                                 <button class='btn btn-secondary col' style="flex: none; width: 10%; min-width: 100px; height: 10%; min-height: 100px;" type='submit' name=<?php echo $item['task_id']?>>Uncomplete</button>
                                 <div class="col">
@@ -107,4 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
         </div>
     </div>
 </div>
-
+<?php else: ?>
+<h1>No List selected!</h1>
+Create or select a list using the sidebar!
+<?php endif;?>
