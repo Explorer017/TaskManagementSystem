@@ -41,7 +41,6 @@
                 //TODO: ADD HANDLING HERE
                 echo 'error';
             }
-            //TODO: FIX?
             addUserToListAsCollaborator($list_id, $uid);
         }
 
