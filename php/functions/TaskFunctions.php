@@ -186,4 +186,29 @@ function markTaskAsUncompleted($task_id){
     }
     return false;
 }
+
+function getUncompletedSubtasksFromTask($task_id){
+
+    // verify the user is allowed to access this list
+    $userID = getUIDFromCreds();
+    $listID = getListIDFromTaskID($task_id);
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT * FROM SubTasks WHERE task_id = :task_id AND sub_task_completed = 0";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":task_id", $task_id, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if(isset($resultArray)){
+        return $resultArray;
+    }
+    return null;
+}
 ?>

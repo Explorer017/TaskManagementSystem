@@ -54,18 +54,55 @@ A list created by <b><?php echo getListOwnerName($listid)?></b>
                             <div class="row">
                                 <button class='btn btn-primary col' style="flex: none; width: 10%; min-width: 100px; height: 10%; min-height: 100px;" type='submit' name=<?php echo $item['task_id']?>>✅</button>
                                 <div class="col">
-                                    <h5><?php echo $item['task_name']?></h5>
-                                    <br/>
-                                    <i><?php if(isset($item['task_due_date'])){
-                                            echo "Due ".$item['task_due_date'];
-                                        } else {
-                                            echo 'No due date';
-                                        }?></i> <br/>
-                                    <i><?php if(($item['task_priority']) != 0){
-                                            echo 'Priority '.$item['task_priority'];
-                                        } else {
-                                            echo 'No priority';
-                                        }?></i>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5><?php echo $item['task_name']?></h5>
+                                        </div>
+                                        <br/>
+                                        <i><?php if(isset($item['task_due_date'])){
+                                                echo "Due ".$item['task_due_date'];
+                                            } else {
+                                                echo 'No due date';
+                                            }?></i> <br/>
+                                        <i><?php if(($item['task_priority']) != 0){
+                                                echo 'Priority '.$item['task_priority'];
+                                            } else {
+                                                echo 'No priority';
+                                            }?></i>
+                                    </div>
+                                    <?php if(getUncompletedSubtasksFromTask($item['task_id']) != null): ?>
+                                        <i>Subtasks:</i>
+                                        <?php $bgcolour = true;?>
+                                        <?php foreach (getUncompletedSubtasksFromTask($item['task_id']) as $subtask): ?>
+                                            <div class=" d-flex flex-row rounded"  <?php if($bgcolour) {
+                                                                                        echo 'style="background-color: darkgrey"';
+                                                                                        $bgcolour = false;
+                                                                                        } else{
+                                                                                        $bgcolour = true;
+                                                                                    }?>>
+                                                    <div class="p-1">
+                                                        <button>done</button>
+                                                    </div>
+                                                    <div class="p-1 flex-grow-1">
+                                                        <i><b><?php echo $subtask["sub_task_name"];?></b></i>
+                                                    </div>
+                                                    <div class="p-1">
+                                                        <i><?php if(isset($subtask['sub_task_due_date'])){
+                                                                echo "Due ".$subtask['sub_task_due_date'];
+                                                            } else {
+                                                                echo 'No due date';
+                                                            }?></i>
+                                                    </div>
+                                                        <div class="p-1 pe-2">
+                                                            <i><?php if(($subtask['sub_task_priority']) != 0){
+                                                                    echo 'Priority '.$item['sub_task_priority'];
+                                                                } else {
+                                                                    echo 'No priority';
+                                                                }?></i>
+                                                        </div>
+                                            </div>
+                                        <?php endforeach;?>
+                                    <?php endif;?>
                                 </div>
                             </div>
                         </form>
