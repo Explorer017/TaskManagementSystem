@@ -38,26 +38,8 @@
             </div>
         </div>
     </div>
-    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="pills-todo-tab" data-bs-toggle="pill" data-bs-target="#pills-todo" type="button" role="tab" aria-controls="pills-todo" aria-selected="true">ToDo</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-done-tab" data-bs-toggle="pill" data-bs-target="#pills-done" type="button" role="tab" aria-controls="pills-done" aria-selected="false">Completed</button>
-        </li>
-    </ul>
-    <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-todo" role="tabpanel" aria-labelledby="pills-todo-tab" tabindex="0">
-            <div class="p-3">
-                <?php require 'components/TaskList.php';
-                ?>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="pills-done" role="tabpanel" aria-labelledby="pills-done-tab" tabindex="0">
-            <div class="p-3">
-                <?php require 'components/TaskListCompleted.php'; ?>
-            </div>
-        </div>
-    </div>
 
+    <div class="mx-auto w-50 m-5">
+        <?php require 'components/TaskList.php'?>
+    </div>
 </main>
