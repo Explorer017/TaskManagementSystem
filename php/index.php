@@ -32,10 +32,10 @@
         <div class="mt-auto">
             <hr/>
             <h3>Hello, <?php echo $name?></h3>
-            <div class="d-flex flex-row mb-3 justify-content-between">
-                <button class="btn btn-secondary" style="width: 40%">Sign Out</button>
-                <button class="btn btn-secondary" style="width: 40%">Account Options</button>
-            </div>
+            <form class="d-flex flex-row mb-3 justify-content-between" method="post" action="accountOptions.php">
+                <button class="btn btn-secondary" style="width: 40%" type="submit" name="signOut" value="signOut">Sign Out</button>
+                <button class="btn btn-secondary" style="width: 40%" type="submit">Account Options</button>
+            </form>
         </div>
     </div>
 
