@@ -14,9 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
     <?php echo getListNameFromID($_GET['listid'])[0]['list_name']?>
 </h1>
 
+<?php if(checkUserListAccess(htmlspecialchars($_GET["listid"]), getUIDFromCreds())): ?>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#NewTaskModal">
     New Task
 </button>
+<?php endif;?>
 
 <br/><br/>
 <!-- Tabs for toggling between complete and uncompleted tasks -->
@@ -38,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
         <div class="p-3">
             <ol>
                 <?php
+                if (getUncompletedTasksFromList($_GET['listid']) != null):
                 foreach (getUncompletedTasksFromList($_GET['listid']) as $item):?>
                     <ul>
                         <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=complete&listid=".$_GET['listid'];?>" method="post">
@@ -60,7 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                             </div>
                         </form>
                     </ul>
-                <?php endforeach; ?>
+                <?php endforeach;
+                else:?>
+                <h2>You have no Tasks!</h2>
+                Create a task using the new task button, or ask the list administrator.
+                <?php endif;?>
             </ol>
         </div>
     </div>
@@ -69,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
         <div class="p-3">
             <ol>
                 <?php
+                if (getCompletedTasksFromList($_GET['listid']) != null):
                 foreach (getCompletedTasksFromList($_GET['listid']) as $item):?>
                     <ul>
                         <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=uncomplete&listid=".$_GET['listid'];?>" method="post">
@@ -91,7 +99,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                             </div>
                         </form>
                     </ul>
-                <?php endforeach; ?>
+                <?php endforeach;
+                else:?>
+                    <h2>There are no completed tasks!</h2>
+                <?php endif;?>
             </ol>
         </div>
     </div>

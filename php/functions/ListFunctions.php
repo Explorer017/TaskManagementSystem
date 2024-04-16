@@ -48,7 +48,6 @@ function deleteList($listID){
     $userID = getUIDFromCreds();
     echo $listID." ". $userID;
     if(!checkUserListAccess($listID, $userID)){
-        echo 'tough luck mate';
         return false;
     }
 

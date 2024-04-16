@@ -3,7 +3,28 @@
 function checkUserListAccess($listID, $userID)
 {
     $db = new SQLite3("../db/database.db");
-    $SQL = "SELECT list_id FROM  UserLists WHERE user_id = :uid AND list_id = :lid";
+    $SQL = "SELECT list_id FROM  UserLists WHERE user_id = :uid AND list_id = :lid AND observer = 0 AND collaborator = 0";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":lid", $listID, SQLITE3_INTEGER);
+    $stmt->bindValue(":uid", $userID, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if (!isset($resultArray)) {
+        return false;
+    }
+    if ($listID == $resultArray[0]["list_id"]){
+        return true;
+    }
+}
+
+function checkCollabListAccess($listID, $userID)
+{
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT list_id FROM  UserLists WHERE user_id = :uid AND list_id = :lid AND observer = 0 AND collaborator = 1";
     $stmt = $db->prepare($SQL);
 
     $stmt->bindValue(":lid", $listID, SQLITE3_INTEGER);
@@ -42,7 +63,7 @@ function getListName($listID)
 function getUncompletedTasksFromList($listID){
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
-    if(!checkUserListAccess($listID, $userID)){
+    if(!checkUserListAccess($listID, $userID) AND !checkCollabListAccess($listID, $userID)){
         return false;
     }
 
@@ -57,13 +78,16 @@ function getUncompletedTasksFromList($listID){
         $resultArray [] = $row;
     }
 
-    return $resultArray;
+    if(isset($resultArray)){
+        return $resultArray;
+    }
+    return null;
 }
 
 function getCompletedTasksFromList($listID){
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
-    if(!checkUserListAccess($listID, $userID)){
+    if(!checkUserListAccess($listID, $userID)  AND !checkCollabListAccess($listID, $userID)){
         return false;
     }
 
@@ -78,10 +102,14 @@ function getCompletedTasksFromList($listID){
         $resultArray [] = $row;
     }
 
-    return $resultArray;
+    if(isset($resultArray)){
+        return $resultArray;
+    }
+    return null;
 }
 
 function newTask($task_name, $list_id, $order_in_list, $task_due, $task_priority){
+
     $db = new SQLite3("../db/database.db");
     $sql = "INSERT INTO Tasks(task_name, task_completed, list_id, order_in_list, task_due_date, task_priority) VALUES (:name, :completed, :list, :order, :due, :priority)";
     $stmt = $db->prepare($sql);
@@ -100,7 +128,30 @@ function newTask($task_name, $list_id, $order_in_list, $task_due, $task_priority
     return false;
 }
 
+function getListIDFromTaskID($task_id){
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT list_id FROM Tasks WHERE task_id = :task_id";
+    $stmt = $db->prepare($SQL);
+    $stmt->bindValue(":task_id", $task_id, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if (!isset($resultArray)) {
+        return false;
+    }
+    return $resultArray[0]["list_id"];
+}
+
 function markTaskAsCompleted($task_id){
+
+    // verify the user is allowed to access this list
+    $userID = getUIDFromCreds();
+    $listID = getListIDFromTaskID($task_id);
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+
     $db = new SQLite3("../db/database.db");
     $sql = "UPDATE Tasks SET task_completed=1 WHERE task_id=:tid";
     $stmt = $db->prepare($sql);
@@ -115,6 +166,14 @@ function markTaskAsCompleted($task_id){
 }
 
 function markTaskAsUncompleted($task_id){
+
+    // verify the user is allowed to access this list
+    $userID = getUIDFromCreds();
+    $listID = getListIDFromTaskID($task_id);
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+
     $db = new SQLite3("../db/database.db");
     $sql = "UPDATE Tasks SET task_completed=0 WHERE task_id=:tid";
     $stmt = $db->prepare($sql);
