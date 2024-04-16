@@ -20,11 +20,11 @@ function getUIDFromCreds(){
     return $resultArray[0]['user_id'];
 }
 
-function getListsForUser(){
+function getOwnedListsForCurrentUser(){
     $uid = getUIDFromCreds();
 
     $db = new SQLite3("../db/database.db");
-    $SQL = "SELECT list_id FROM  UserLists WHERE user_id = :uid";
+    $SQL = "SELECT list_id FROM  UserLists WHERE user_id = :uid AND collaborator = 0 AND observer = 0";
     $stmt = $db->prepare($SQL);
 
     $stmt->bindValue(":uid", $uid, SQLITE3_TEXT);
