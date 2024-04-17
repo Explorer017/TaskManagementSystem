@@ -11,6 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
         markTaskAsUncompleted($_GET['taskid']);
         header('Location: index.php?listid='.$listid);
     }
+}elseif ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'newsubtask'){
+    if(!empty($_GET['taskid'])){
+        echo "new subtask ". $_GET['taskid'];
+    }
 }
 ?>
 <h1>
@@ -71,7 +75,14 @@ A list created by <b><?php echo getListOwnerName($listid)?></b>
                                             }?></i>
                                     </div>
                                     <?php if(getUncompletedSubtasksFromTask($item['task_id']) != null): ?>
-                                        <i>Subtasks:</i>
+                                    <div class="d-flex flex-row pb-1">
+                                        <div class="flex-grow-1"><i>Subtasks:</i></div>
+                                        <div>
+                                            <form id="newsubtask" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=newsubtask&listid=".$listid;?>" method="post">
+                                                <button class="btn btn-primary btn-sm" type="submit" form="newsubtask">New Subtask</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                         <?php $bgcolour = true;?>
                                         <?php foreach (getUncompletedSubtasksFromTask($item['task_id']) as $subtask): ?>
                                             <div class=" d-flex flex-row rounded"  <?php if($bgcolour) {
