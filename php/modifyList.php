@@ -32,11 +32,6 @@
 
         if($is_form_valid){
             $uid = LookupUIDFromName($collabUsername);
-            echo $collabUsername;
-            echo ' ';
-            echo $uid;
-            echo ' ';
-            echo $list_id;
             if(!$uid){
                 //TODO: ADD HANDLING HERE
                 echo 'error';
@@ -48,17 +43,58 @@
 
     ?>
 
-<h1>Modify <?php echo $list_name?></h1>
+<div class="container p-5">
+    <h1>Modify <?php echo $list_name?></h1>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?listid=".$list_id;?>" method="post">
-    <h3>Add Collaborator</h3>
-    <label for="collabUsername">Collaborator Username</label>
-    <input type="text" id="collabUsername" class="form-control" name="collabUsername"/>
-    <input type="hidden" name="addOrRemove" value="add"/>
-    <div id="collabUsernameError" class="invalid-feedback"><?php echo $collabUsernameError?></div>
-    <input type="submit" value="Add collaborator"/>
-</form>
+    <div>
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-editlistname-tab" data-bs-toggle="pill" data-bs-target="#pills-editlistname" type="button" role="tab" aria-controls="pills-addcollab" aria-selected="true">Edit list name</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="pills-addcollab-tab" data-bs-toggle="pill" data-bs-target="#pills-addcollab" type="button" role="tab" aria-controls="pills-addcollab" aria-selected="true">Add Collaborator</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-removecollab-tab" data-bs-toggle="pill" data-bs-target="#pills-removecollab" type="button" role="tab" aria-controls="pills-removecollab" aria-selected="false">Remove Collaborator</button>
+            </li>
+        </ul>
+    </div>
 
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-editlistname" role="tabpanel" aria-labelledby="pills-editlistname-tab" tabindex="0">
+        </div>
+        <div class="tab-pane fade show" id="pills-addcollab" role="tabpanel" aria-labelledby="pills-addcollab-tab" tabindex="0">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?listid=".$list_id;?>" method="post">
+                <h3>Add Collaborator</h3>
+                <label for="collabUsername">Collaborator Username</label>
+                <input type="hidden" name="addOrRemove" value="add"/>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" id="collabUsername" class="form-control" name="collabUsername"/>
+                    </div>
+                    <div class="col">
+                        <input type="submit" value="Add collaborator" class="btn btn-primary"/>
+                    </div>
+                </div>
+                <div id="collabUsernameError" class="invalid-feedback"><?php echo $collabUsernameError?></div>
+            </form>
+        </div>
 
-<button>remove collaborator</button>
-
+        <div class="tab-pane fade show" id="pills-removecollab" role="tabpanel" aria-labelledby="pills-removecollab-tab" tabindex="0">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?listid=".$list_id;?>" method="post">
+                <h3>Remove Collaborator</h3>
+                <label for="collabUsername">Collaborator Username</label>
+                <input type="hidden" name="addOrRemove" value="add"/>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" id="collabUsername" class="form-control" name="collabUsername"/>
+                    </div>
+                    <div class="col">
+                        <input type="submit" value="Remove collaborator" class="btn btn-danger"/>
+                    </div>
+                </div>
+                <div id="collabUsernameError" class="invalid-feedback"><?php echo $collabUsernameError?></div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'newsubtask'){
 
 <?php require "../css/css.php"?>
 <?php require "components/pagetop.php"?>
-<div class="container">
+<div class="container p-5">
     <h1>New Subtask</h1>
     <h3 class="fs-4">In task "<?php echo getTaskName($taskId)?>"</h3>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$_GET['taskid']."&type=newsubtask";?>" method="post">
