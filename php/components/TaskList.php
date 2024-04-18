@@ -59,7 +59,7 @@ A list created by <b><?php echo getListOwnerName($listid)?></b>
                 foreach (getUncompletedTasksFromList($listid) as $item):?>
                     <ul>
                         <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=complete&listid=".$listid;?>" method="post" id="complete<?php echo $item['task_id']?>"></form>
-                        <form id="newsubtask" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=newsubtask&listid=".$listid;?>" method="post" name="newsubtask" style="height: 0px; width: 0px"></form>
+                        <!--<form id="newsubtask" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=newsubtask&listid=".$listid;?>" method="post" name="newsubtask" style="height: 0px; width: 0px"></form>-->
                             <div class="row">
                                 <button class='btn btn-primary col' style="flex: none; width: 10%; min-width: 100px; height: 10%; min-height: 100px;" type='submit' name="<?php echo $item['task_id']?>" form="complete<?php echo $item['task_id']?>">✅</button>
                                 <div class="col">
@@ -83,7 +83,7 @@ A list created by <b><?php echo getListOwnerName($listid)?></b>
                                     <div class="d-flex flex-row pb-1">
                                         <div class="flex-grow-1 align-middle"><i class="align-middle">Subtasks:</i></div>
                                         <div>
-                                            <button class="btn btn-primary btn-sm" type="submit" form="newsubtask">New Subtask</button>
+                                            <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button>
                                         </div>
                                     </div>
                                         <?php $bgcolour = true;?>
@@ -117,6 +117,10 @@ A list created by <b><?php echo getListOwnerName($listid)?></b>
                                                         </div>
                                             </div>
                                         <?php endforeach;?>
+                                    <?php else:?>
+                                    <div>
+                                        <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button>
+                                    </div>
                                     <?php endif;?>
                                 </div>
                             </div>

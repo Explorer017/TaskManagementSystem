@@ -187,6 +187,18 @@ function markTaskAsUncompleted($task_id){
     return false;
 }
 
+function getTaskName($task_id){
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT task_name FROM Tasks WHERE task_id = :task_id";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":task_id", $task_id, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $row = $result->fetchArray();
+    return $row["task_name"];
+}
+
 // subtask functions
 function getUncompletedSubtasksFromTask($task_id){
 
@@ -241,8 +253,8 @@ function markSubtaskAsCompleted($subtask_id){
     }
 
     $db = new SQLite3("../db/database.db");
-    $sql = "UPDATE SubTasks SET sub_task_completed=1 WHERE sub_task_id=:stid";
-    $stmt = $db->prepare($sql);
+    $SQL = "UPDATE SubTasks SET sub_task_completed=1 WHERE sub_task_id=:stid";
+    $stmt = $db->prepare($SQL);
 
     $stmt->bindValue(":stid", $subtask_id, SQLITE3_INTEGER);
     $stmt->execute();
@@ -252,5 +264,30 @@ function markSubtaskAsCompleted($subtask_id){
     }
     return false;
 
+}
+
+function newSubTask($task_id, $subtask_name, $subtask_order, $subtask_due_date, $subtask_priority){
+
+    // verify the user is allowed to access this list
+    $userID = getUIDFromCreds();
+    $listID = getListIDFromTaskID($task_id);
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+    $db = new SQLite3("../db/database.db");
+    $SQL = "INSERT INTO SubTasks (sub_task_name, sub_task_completed, task_id, order_in_task, sub_task_due_date, sub_task_priority) VALUES (:subtask_name, 0, :task_id, :order_in_task, :subtask_due_date, :subtask_priority)";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":subtask_name", $subtask_name, SQLITE3_TEXT);
+    $stmt->bindValue(":task_id", $task_id, SQLITE3_INTEGER);
+    $stmt->bindValue(":order_in_task", $subtask_order, SQLITE3_INTEGER);
+    $stmt->bindValue(":subtask_due_date", $subtask_due_date, SQLITE3_TEXT);
+    $stmt->bindValue(":subtask_priority", $subtask_priority, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    if($result){
+        return true;
+    }
+    return false;
 }
 ?>
