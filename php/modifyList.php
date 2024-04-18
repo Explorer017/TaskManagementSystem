@@ -36,7 +36,11 @@
                 //TODO: ADD HANDLING HERE
                 echo 'error';
             }
-            addUserToListAsCollaborator($list_id, $uid);
+            if ($_POST["addOrRemove"] == "add"){
+                addUserToListAsCollaborator($list_id, $uid);
+            } else if ($_POST["addOrRemove"] == "remove"){
+                removeCollaboratorFromList($list_id, $uid);
+            }
         }
 
     }
@@ -84,10 +88,16 @@
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?listid=".$list_id;?>" method="post">
                 <h3>Remove Collaborator</h3>
                 <label for="collabUsername">Collaborator Username</label>
-                <input type="hidden" name="addOrRemove" value="add"/>
+                <input type="hidden" name="addOrRemove" value="remove"/>
                 <div class="row">
                     <div class="col">
-                        <input type="text" id="collabUsername" class="form-control" name="collabUsername"/>
+                        <!--<input type="text" id="collabUsername" class="form-control" name="collabUsername"/>-->
+                        <select id='collabUsername' class="form-select" name="collabUsername">
+                            <option selected disabled value="">Select a collaborator</option>
+                            <?php foreach(getListCollaborators($list_id) as $collabs):?>
+                                <option value="<?php echo getUsernameFromUID($collabs);?>"><?php echo getUsernameFromUID($collabs);?></option>
+                            <?php endforeach;?>
+                        </select>
                     </div>
                     <div class="col">
                         <input type="submit" value="Remove collaborator" class="btn btn-danger"/>

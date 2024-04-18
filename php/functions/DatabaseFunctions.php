@@ -108,4 +108,22 @@ function getListOwnerName($listid){
     return $resultArray[0]['list_owner'];
 }
 
+function getUsernameFromUID($uid){
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT user_name FROM Users WHERE user_id = :uid";
+
+    $stmt = $db->prepare($SQL);
+    $stmt->bindValue(":uid", $uid, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+
+    if (!isset($resultArray)){
+        return null;
+    }
+    return $resultArray[0]['user_name'];
+}
 ?>
