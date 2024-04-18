@@ -11,9 +11,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
         markTaskAsUncompleted($_GET['taskid']);
         header('Location: index.php?listid='.$listid);
     }
-}elseif ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'newsubtask'){
+} elseif ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'newsubtask'){
     if(!empty($_GET['taskid'])){
         echo "new subtask ". $_GET['taskid'];
+    }
+} elseif ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'completesubtask'){
+    if(!empty($_GET['subtaskid'])){
+        markSubtaskAsCompleted($_GET['subtaskid']);
     }
 }
 ?>
@@ -54,9 +58,10 @@ A list created by <b><?php echo getListOwnerName($listid)?></b>
                 if (getUncompletedTasksFromList($listid) != null):
                 foreach (getUncompletedTasksFromList($listid) as $item):?>
                     <ul>
-                        <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=complete&listid=".$listid;?>" method="post">
+                        <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=complete&listid=".$listid;?>" method="post" id="complete<?php echo $item['task_id']?>"></form>
+                        <form id="newsubtask" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=newsubtask&listid=".$listid;?>" method="post" name="newsubtask" style="height: 0px; width: 0px"></form>
                             <div class="row">
-                                <button class='btn btn-primary col' style="flex: none; width: 10%; min-width: 100px; height: 10%; min-height: 100px;" type='submit' name=<?php echo $item['task_id']?>>✅</button>
+                                <button class='btn btn-primary col' style="flex: none; width: 10%; min-width: 100px; height: 10%; min-height: 100px;" type='submit' name="<?php echo $item['task_id']?>" form="complete<?php echo $item['task_id']?>">✅</button>
                                 <div class="col">
                                     <div class="row">
                                         <div class="col">
@@ -76,15 +81,14 @@ A list created by <b><?php echo getListOwnerName($listid)?></b>
                                     </div>
                                     <?php if(getUncompletedSubtasksFromTask($item['task_id']) != null): ?>
                                     <div class="d-flex flex-row pb-1">
-                                        <div class="flex-grow-1"><i>Subtasks:</i></div>
+                                        <div class="flex-grow-1 align-middle"><i class="align-middle">Subtasks:</i></div>
                                         <div>
-                                            <form id="newsubtask" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=newsubtask&listid=".$listid;?>" method="post">
-                                                <button class="btn btn-primary btn-sm" type="submit" form="newsubtask">New Subtask</button>
-                                            </form>
+                                            <button class="btn btn-primary btn-sm" type="submit" form="newsubtask">New Subtask</button>
                                         </div>
                                     </div>
                                         <?php $bgcolour = true;?>
                                         <?php foreach (getUncompletedSubtasksFromTask($item['task_id']) as $subtask): ?>
+                                            <form id="completeSubtask<?php echo $subtask['sub_task_id']?>" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?subtaskid=".$subtask['sub_task_id']."&type=completesubtask&listid=".$listid;?>" method="post" name="completeSubtask" style="height: 0px; width: 0px" hidden></form>
                                             <div class=" d-flex flex-row rounded"  <?php if($bgcolour) {
                                                                                         echo 'style="background-color: darkgrey"';
                                                                                         $bgcolour = false;
@@ -92,7 +96,7 @@ A list created by <b><?php echo getListOwnerName($listid)?></b>
                                                                                         $bgcolour = true;
                                                                                     }?>>
                                                     <div class="p-1">
-                                                        <button>done</button>
+                                                        <button form="completeSubtask<?php echo $subtask['sub_task_id']?>" class="btn btn-primary btn-sm" type="submit">✅</button>
                                                     </div>
                                                     <div class="p-1 flex-grow-1">
                                                         <i><b><?php echo $subtask["sub_task_name"];?></b></i>

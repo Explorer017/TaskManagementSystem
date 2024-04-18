@@ -187,6 +187,7 @@ function markTaskAsUncompleted($task_id){
     return false;
 }
 
+// subtask functions
 function getUncompletedSubtasksFromTask($task_id){
 
     // verify the user is allowed to access this list
@@ -210,5 +211,46 @@ function getUncompletedSubtasksFromTask($task_id){
         return $resultArray;
     }
     return null;
+}
+
+function getTaskIDFromSubtaskID($subtask_id){
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT task_id FROM SubTasks WHERE sub_task_id = :subtask_id";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":subtask_id", $subtask_id, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if(isset($resultArray)){
+        return $resultArray[0]["task_id"];
+    }
+    return null;
+}
+
+function markSubtaskAsCompleted($subtask_id){
+
+    // verify the user is allowed to access this list
+    $userID = getUIDFromCreds();
+    $taskID = getTaskIDFromSubtaskID($subtask_id);
+    $listID = getListIDFromTaskID($taskID);
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+
+    $db = new SQLite3("../db/database.db");
+    $sql = "UPDATE SubTasks SET sub_task_completed=1 WHERE sub_task_id=:stid";
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindValue(":stid", $subtask_id, SQLITE3_INTEGER);
+    $stmt->execute();
+
+    if($stmt){
+        return true;
+    }
+    return false;
+
 }
 ?>
