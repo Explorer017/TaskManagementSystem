@@ -316,4 +316,27 @@ function newSubTask($task_id, $subtask_name, $subtask_order, $subtask_due_date, 
     return false;
 }
 
+function markSubtaskAsUncompleted($subtask_id){
+
+    // verify the user is allowed to access this list
+    $userID = getUIDFromCreds();
+    $taskID = getTaskIDFromSubtaskID($subtask_id);
+    $listID = getListIDFromTaskID($taskID);
+    
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+    $db = new SQLite3("../db/database.db");
+    $SQL = "UPDATE SubTasks SET sub_task_completed=0 WHERE sub_task_id=:stid";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":stid", $subtask_id, SQLITE3_INTEGER);
+
+    $stmt->execute();
+    if($stmt){
+        return true;
+    }
+    return false;
+}
+
 ?>

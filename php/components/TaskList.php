@@ -19,6 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
     if(!empty($_GET['subtaskid'])){
         markSubtaskAsCompleted($_GET['subtaskid']);
     }
+} elseif ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'uncompletesubtask'){
+    if(!empty($_GET['subtaskid'])){
+        markSubtaskAsUncompleted($_GET['subtaskid']);
+    }
 }
 ?>
 <h1>
