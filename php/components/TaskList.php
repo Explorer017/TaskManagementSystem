@@ -132,7 +132,49 @@ A list created by <b><?php echo getListOwnerFullName($listid)?></b>
                                             <?php endif;?>
                                         </div>
                                         <div class="tab-pane fade show" id="pills-subtask-complete-<?php echo $item['task_id']?>" role="tabpanel" aria-labelledby="pills-subtask-complete-<?php echo $item['task_id']?>-tab" tabindex="0">
-
+                                            <?php if(getCompletedSubtasksFromTask($item['task_id']) != null): ?>
+                                                <div class="d-flex flex-row pb-1">
+                                                    <div class="flex-grow-1 align-middle"><i class="align-middle">Subtasks:</i></div>
+                                                    <div>
+                                                        <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button>
+                                                    </div>
+                                                </div>
+                                                <?php $bgcolour = true;?>
+                                                <?php foreach (getCompletedSubtasksFromTask($item['task_id']) as $subtask): ?>
+                                                    <form id="uncompleteSubtask<?php echo $subtask['sub_task_id']?>" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?subtaskid=".$subtask['sub_task_id']."&type=uncompletesubtask&listid=".$listid;?>" method="post" name="completeSubtask" style="height: 0px; width: 0px" hidden></form>
+                                                    <div class=" d-flex flex-row rounded"  <?php if($bgcolour) {
+                                                        echo 'style="background-color: darkgrey"';
+                                                        $bgcolour = false;
+                                                    } else{
+                                                        $bgcolour = true;
+                                                    }?>>
+                                                        <div class="p-1">
+                                                            <button form="uncompleteSubtask<?php echo $subtask['sub_task_id']?>" class="btn btn-secondary btn-sm" type="submit">❌</button>
+                                                        </div>
+                                                        <div class="p-1 flex-grow-1">
+                                                            <i><b><?php echo $subtask["sub_task_name"];?></b></i>
+                                                        </div>
+                                                        <div class="p-1">
+                                                            <i><?php if(isset($subtask['sub_task_due_date'])){
+                                                                    echo "Due ".$subtask['sub_task_due_date'];
+                                                                } else {
+                                                                    echo 'No due date';
+                                                                }?></i>
+                                                        </div>
+                                                        <div class="p-1 pe-2">
+                                                            <i><?php if(($subtask['sub_task_priority']) != 0){
+                                                                    echo 'Priority '.$item['sub_task_priority'];
+                                                                } else {
+                                                                    echo 'No priority';
+                                                                }?></i>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach;?>
+                                            <?php else:?>
+                                                <div>
+                                                    <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button>
+                                                </div>
+                                            <?php endif;?>
                                         </div>
                                     </div>
                                 </div>
