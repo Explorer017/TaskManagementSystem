@@ -92,7 +92,7 @@ function LookupUIDFromName($username){
     return $resultArray[0]['user_id'];
 }
 
-function getListOwnerName($listid){
+function getListOwnerFullName($listid){
     $db = new SQLite3("../db/database.db");
     $SQL = 'SELECT Users.first_name || " " || Users.last_name  || " (" || Users.user_name || ")" AS "list_owner", UserLists.user_id FROM UserLists INNER JOIN Users on Users.user_id = UserLists.user_id WHERE list_id = :listid AND observer = 0 AND collaborator = 0';
     $stmt = $db->prepare($SQL);
@@ -106,6 +106,24 @@ function getListOwnerName($listid){
         return null;
     }
     return $resultArray[0]['list_owner'];
+}
+
+function getFirstName(){
+    $userid = getUIDFromCreds();
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT first_name FROM Users WHERE user_id = :userid";
+    $stmt = $db->prepare($SQL);
+    $stmt->bindValue(":userid", $userid, SQLITE3_TEXT);
+
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if (!isset($resultArray)){
+        return null;
+    }
+    return $resultArray[0]['first_name'];
 }
 
 function getUsernameFromUID($uid){

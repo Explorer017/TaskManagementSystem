@@ -56,7 +56,7 @@
                 <button class="nav-link active" id="pills-editlistname-tab" data-bs-toggle="pill" data-bs-target="#pills-editlistname" type="button" role="tab" aria-controls="pills-addcollab" aria-selected="true">Edit list name</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link " id="pills-addcollab-tab" data-bs-toggle="pill" data-bs-target="#pills-addcollab" type="button" role="tab" aria-controls="pills-addcollab" aria-selected="true">Add Collaborator</button>
+                <button class="nav-link " id="pills-addcollab-tab" data-bs-toggle="pill" data-bs-target="#pills-addcollab" type="button" role="tab" aria-controls="pills-addcollab" aria-selected="false">Add Collaborator</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="pills-removecollab-tab" data-bs-toggle="pill" data-bs-target="#pills-removecollab" type="button" role="tab" aria-controls="pills-removecollab" aria-selected="false">Remove Collaborator</button>

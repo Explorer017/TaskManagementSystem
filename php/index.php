@@ -1,8 +1,8 @@
 <?php
     require ('functions/DatabaseFunctions.php');
     require ('functions/TaskFunctions.php');
-    $name = "test";
     session_start();
+    $name = getFirstName();
     function CheckIfSignedIn(){
         if(isset($_SESSION["credentials"])){
             return true;
