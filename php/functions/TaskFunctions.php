@@ -322,7 +322,7 @@ function markSubtaskAsUncompleted($subtask_id){
     $userID = getUIDFromCreds();
     $taskID = getTaskIDFromSubtaskID($subtask_id);
     $listID = getListIDFromTaskID($taskID);
-    
+
     if(!checkUserListAccess($listID, $userID)){
         return false;
     }

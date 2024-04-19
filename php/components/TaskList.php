@@ -91,9 +91,9 @@ A list created by <b><?php echo getListOwnerFullName($listid)?></b>
                                     </div>
                                     <div class="tab-content" id="pills-tabContent-subtask">
                                         <div class="tab-pane fade show active" id="pills-subtask-uncomplete-<?php echo $item['task_id']?>" role="tabpanel" aria-labelledby="pills-subtask-uncomplete-<?php echo $item['task_id']?>-tab" tabindex="0">
+                                            <div class="flex-grow-1 align-middle"><i class="align-middle">Subtasks:</i></div>
                                             <?php if(getUncompletedSubtasksFromTask($item['task_id']) != null): ?>
                                             <div class="d-flex flex-row pb-1">
-                                                <div class="flex-grow-1 align-middle"><i class="align-middle">Subtasks:</i></div>
                                                 <div>
                                                     <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button>
                                                 </div>
@@ -130,7 +130,8 @@ A list created by <b><?php echo getListOwnerFullName($listid)?></b>
                                                     </div>
                                                 <?php endforeach;?>
                                             <?php else:?>
-                                            <div>
+                                            <div class="d-flex">
+                                                <i class="flex-grow-1 col">No subtasks</i>
                                                 <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button>
                                             </div>
                                             <?php endif;?>
