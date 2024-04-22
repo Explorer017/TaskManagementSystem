@@ -77,6 +77,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                                         <br/>
                                         <?php if(isset($item['assigned_collaborator_id'])){
                                                 echo "<i> Assigned to <b>".getUsernameFromUID($item['assigned_collaborator_id']).'</b></i> <br/>';
+                                                if (checkUserListAccess($listid, getUIDFromCreds())):?>
+                                                    <div><button class="btn btn-danger btn-sm" onclick="window.location.href='assignUser.php?taskid=<?php echo $item['task_id'];?>&unassign=true'">Unassign</button></div>
+                                                <?php endif;
                                             } else if (getListCollaborators($listid) != null): ?>
                                             <div class="p-1"><button class="btn btn-primary btn-sm" onclick="window.location.href='assignUser.php?taskid=<?php echo $item['task_id'];?>'">Assign User</button></div>
                                         <?php endif;?>

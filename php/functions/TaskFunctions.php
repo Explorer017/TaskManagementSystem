@@ -356,12 +356,42 @@ function getTaskAssignedUser($taskid){
 }
 
 function assignTaskToUser($task_id, $collaborator_id){
+
+    // verify the user is allowed to access this list
+    $userID = getUIDFromCreds();
+    $listID = getListIDFromTaskID($task_id);
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+
     $db = new SQLite3("../db/database.db");
     $SQL = 'UPDATE Tasks SET assigned_collaborator_id=:cid WHERE task_id = :tid';
     $stmt = $db->prepare($SQL);
 
     $stmt->bindValue(":tid", $task_id, SQLITE3_INTEGER);
     $stmt->bindValue(":cid", $collaborator_id, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    if($result){
+        return true;
+    }
+    return false;
+}
+
+function unassignTaskToUser($task_id){
+
+    // verify the user is allowed to access this list
+    $userID = getUIDFromCreds();
+    $listID = getListIDFromTaskID($task_id);
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = 'UPDATE Tasks SET assigned_collaborator_id=null WHERE task_id = :tid';
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":tid", $task_id, SQLITE3_INTEGER);
 
     $result = $stmt->execute();
     if($result){
