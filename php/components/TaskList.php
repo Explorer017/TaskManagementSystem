@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
 }
 ?>
 <h1>
-    <?php if (getListNameFromID($listid) != false) echo getListNameFromID($listid)[0]['list_name']?>
+    <?php if (getListNameFromID($listid) != false && array_key_exists('list_name', getListNameFromID($listid)[0])) echo getListNameFromID($listid)[0]['list_name']?>
 </h1>
 
 <?php if ($listid != false):?>
