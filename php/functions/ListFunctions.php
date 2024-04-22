@@ -163,3 +163,18 @@ function removeCollaboratorFromList($listID, $collabUserID){
 
     return false;
 }
+
+
+function checkIfListHasCollaborators($listID){
+    // verify the user is allowed to access this list
+
+    $userID = getUIDFromCreds();
+    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID))){
+        return false;
+    }
+
+    if (getListCollaborators($listID) == null){
+        return false;
+    }
+    return true;
+}

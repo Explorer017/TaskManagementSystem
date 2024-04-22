@@ -144,4 +144,24 @@ function getUsernameFromUID($uid){
     }
     return $resultArray[0]['user_name'];
 }
+
+function getUsersFullName($uid){
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = 'SELECT first_name || " " || last_name  || " (" || user_name || ")" AS "name" FROM Users WHERE user_id = :userid';
+
+    $stmt = $db->prepare($SQL);
+    $stmt->bindValue(":userid", $uid, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+
+    if (!isset($resultArray)){
+        return null;
+    }
+    return $resultArray[0]['name'];
+}
+
 ?>

@@ -32,11 +32,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
 <?php if ($listid != false):?>
 
 <?php if(checkUserListAccess(htmlspecialchars($listid), getUIDFromCreds())): ?>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#NewTaskModal">
-    New Task
-</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#NewTaskModal">
+        New Task
+    </button>
 <?php else: ?>
-A list created by <b><?php echo getListOwnerFullName($listid)?></b>
+    A list created by <b><?php echo getListOwnerFullName($listid)?></b><br/>
+<?php endif;?>
+<?php if(checkIfListHasCollaborators($listid)): ?>
+    This is a shared list
 <?php endif;?>
 
 <br/><br/>
