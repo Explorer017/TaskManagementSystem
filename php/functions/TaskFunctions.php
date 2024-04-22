@@ -205,7 +205,7 @@ function getUncompletedSubtasksFromTask($task_id){
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
     $listID = getListIDFromTaskID($task_id);
-    if(!checkUserListAccess($listID, $userID)){
+    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID))){
         return false;
     }
 
@@ -230,7 +230,7 @@ function getCompletedSubtasksFromTask($task_id){
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
     $listID = getListIDFromTaskID($task_id);
-    if(!checkUserListAccess($listID, $userID)){
+    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID))){
         return false;
     }
 
@@ -273,7 +273,7 @@ function markSubtaskAsCompleted($subtask_id){
     $userID = getUIDFromCreds();
     $taskID = getTaskIDFromSubtaskID($subtask_id);
     $listID = getListIDFromTaskID($taskID);
-    if(!checkUserListAccess($listID, $userID)){
+    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID))){
         return false;
     }
 
@@ -296,9 +296,10 @@ function newSubTask($task_id, $subtask_name, $subtask_order, $subtask_due_date, 
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
     $listID = getListIDFromTaskID($task_id);
-    if(!checkUserListAccess($listID, $userID)){
+    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID))){
         return false;
     }
+
     $db = new SQLite3("../db/database.db");
     $SQL = "INSERT INTO SubTasks (sub_task_name, sub_task_completed, task_id, order_in_task, sub_task_due_date, sub_task_priority) VALUES (:subtask_name, 0, :task_id, :order_in_task, :subtask_due_date, :subtask_priority)";
     $stmt = $db->prepare($SQL);
@@ -323,7 +324,7 @@ function markSubtaskAsUncompleted($subtask_id){
     $taskID = getTaskIDFromSubtaskID($subtask_id);
     $listID = getListIDFromTaskID($taskID);
 
-    if(!checkUserListAccess($listID, $userID)){
+    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID))){
         return false;
     }
     $db = new SQLite3("../db/database.db");

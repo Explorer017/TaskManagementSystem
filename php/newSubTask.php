@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'newsubtask'){
 
     if($isFormValid){
         $task = newSubTask($taskId, $subTaskName, 0, $subTaskDueDate, $subTaskPriority);
-        Header("Location: index.php?listid=".getListIDFromTaskID($taskId));
+        //Header("Location: index.php?listid=".getListIDFromTaskID($taskId));
     }
 }
 ?>
