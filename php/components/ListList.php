@@ -8,6 +8,7 @@
     <hr/>
     <h5>My Lists</h5>
     <?php
+    if (getOwnedListsForCurrentUser() != null):
         foreach (getOwnedListsForCurrentUser() as $listID):
             if($listID[0] == $ListIDInURL):?>
                 <li class="hstack gap-3 nav-link active text-white">
@@ -28,27 +29,34 @@
                     <button class="btn btn-outline-secondary" onclick="location.href='modifyList.php?listid=<?php echo $ListIDInURL?>'"><i class="bi bi-three-dots"></i></button>
                 </li>
             <?php endif;?>
-    <?php endforeach;?>
+    <?php endforeach;
+    else:?>
+        You have not created a list! Click the <b>"New List"</b> button to get started!
+    <?php endif;?>
     <hr/>
     <h5>Lists shared with me</h5>
     <?php
-    foreach (getCollabListsForCurrentUser() as $listID):
-        if($listID[0] == $ListIDInURL):?>
-            <li class="hstack gap-3 nav-link active text-white">
-                <div class="">
-                    <?php echo getListNameFromID($listID[0])[0][0]?>
-                </div>
-                <button class="btn btn-danger ms-auto" onclick="location.href='listAction.php?action=leave&listid=<?php echo $ListIDInURL?>'"><i class="bi bi-box-arrow-right"></i></button>
-            </li>
-        <?php else:?>
-            <li class="hstack gap-3">
-                <div class="nav-link text-white">
-                    <a class="navbarList" href="<?php echo "index.php?listid=$listID[0]"?>">
+    if (getCollabListsForCurrentUser() != null):
+        foreach (getCollabListsForCurrentUser() as $listID):
+            if($listID[0] == $ListIDInURL):?>
+                <li class="hstack gap-3 nav-link active text-white">
+                    <div class="">
                         <?php echo getListNameFromID($listID[0])[0][0]?>
-                    </a>
-                </div>
-                <button class="btn btn-outline-danger ms-auto" onclick="location.href='listAction.php?action=leave&listid=<?php echo $ListIDInURL?>'"><i class="bi bi-box-arrow-right"></i></button>
-            </li>
-        <?php endif;?>
-    <?php endforeach;?>
+                    </div>
+                    <button class="btn btn-danger ms-auto" onclick="location.href='listAction.php?action=leave&listid=<?php echo $ListIDInURL?>'"><i class="bi bi-box-arrow-right"></i></button>
+                </li>
+            <?php else:?>
+                <li class="hstack gap-3">
+                    <div class="nav-link text-white">
+                        <a class="navbarList" href="<?php echo "index.php?listid=$listID[0]"?>">
+                            <?php echo getListNameFromID($listID[0])[0][0]?>
+                        </a>
+                    </div>
+                    <button class="btn btn-outline-danger ms-auto" onclick="location.href='listAction.php?action=leave&listid=<?php echo $ListIDInURL?>'"><i class="bi bi-box-arrow-right"></i></button>
+                </li>
+            <?php endif;?>
+        <?php endforeach;
+     else:?>
+     No one has shared a list with you!
+    <?php endif;?>
 </ul>
