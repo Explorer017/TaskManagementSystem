@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                                                             </div>
                                                                 <div class="p-1 pe-2">
                                                                     <i><?php if(($subtask['sub_task_priority']) != 0){
-                                                                            echo 'Priority '.$item['sub_task_priority'];
+                                                                            echo 'Priority '.$subtask['sub_task_priority'];
                                                                         } else {
                                                                             echo 'No priority';
                                                                         }?></i>
