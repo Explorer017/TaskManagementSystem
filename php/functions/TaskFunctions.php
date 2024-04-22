@@ -339,4 +339,35 @@ function markSubtaskAsUncompleted($subtask_id){
     return false;
 }
 
+function getTaskAssignedUser($taskid){
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT assigned_collaborator_id FROM Tasks WHERE task_id = :task_id";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":task_id", $taskid, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    $row = $result->fetchArray();
+    if(isset($row)){
+        return $row["assigned_collaborator_id"];
+    }
+    return null;
+}
+
+function assignTaskToUser($task_id, $collaborator_id){
+    $db = new SQLite3("../db/database.db");
+    $SQL = 'UPDATE Tasks SET assigned_collaborator_id=:cid WHERE task_id = :tid';
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":tid", $task_id, SQLITE3_INTEGER);
+    $stmt->bindValue(":cid", $collaborator_id, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    if($result){
+        return true;
+    }
+    return false;
+}
+
 ?>

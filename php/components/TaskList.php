@@ -72,6 +72,11 @@ A list created by <b><?php echo getListOwnerFullName($listid)?></b>
                                             <h5><?php echo $item['task_name']?></h5>
                                         </div>
                                         <br/>
+                                        <?php if(isset($item['assigned_collaborator_id'])){
+                                                echo "<i> Assigned to <b>".getUsernameFromUID($item['assigned_collaborator_id']).'</b></i> <br/>';
+                                            } else if (getListCollaborators($listid) != null): ?>
+                                            <div class="p-1"><button class="btn btn-primary btn-sm" onclick="window.location.href='assignUser.php?taskid=<?php echo $item['task_id'];?>'">Assign User</button></div>
+                                        <?php endif;?>
                                         <i><?php if(isset($item['task_due_date'])){
                                                 echo "Due ".$item['task_due_date'];
                                             } else {
