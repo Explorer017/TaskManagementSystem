@@ -164,4 +164,23 @@ function getUsersFullName($uid){
     return $resultArray[0]['name'];
 }
 
+function getObserverListsForCurrentUser(){
+    $uid = getUIDFromCreds();
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT list_id FROM  UserLists WHERE user_id = :uid AND collaborator = 0 AND observer = 1";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":uid", $uid, SQLITE3_TEXT);
+
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if (!isset($resultArray)){
+        return null;
+    }
+    return $resultArray;
+}
+
 ?>
