@@ -428,7 +428,6 @@ function deleteTask($taskid, $listid)
     // verify the user is allowed to access this list
     session_start();
     $userID = getUIDFromCreds();
-    echo "uid:".$userID." lid:".$listid;
     if(!checkUserListAccess($listid, $userID)){
         return false;
     }
@@ -451,6 +450,48 @@ function deleteTask($taskid, $listid)
         if($result){
             return true;
         }
+    }
+    return false;
+}
+
+function getTaskInfo($taskid){
+
+    // verify the user is allowed to access this list
+    session_start();
+    $userID = getUIDFromCreds();
+    $listID = getListIDFromTaskID($taskid);
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = 'SELECT * FROM Tasks WHERE task_id = :tid';
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":tid", $taskid, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+    $row = $result->fetchArray();
+    if(isset($row)){
+        return $row;
+    }
+    return false;
+}
+
+function modifyTask($task_id, $task_name, $task_due, $task_priority){
+
+    $db = new SQLite3("../db/database.db");
+    $sql = "UPDATE Tasks SET task_name = :name, task_due_date = :due, task_priority = :priority WHERE task_id = :tid";
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindValue(":name", $task_name, SQLITE3_TEXT);
+    $stmt->bindValue(":due", $task_due, SQLITE3_INTEGER);
+    $stmt->bindValue(":priority", $task_priority, SQLITE3_INTEGER);
+    $stmt->bindValue(":tid", $task_id, SQLITE3_INTEGER);
+    $stmt->execute();
+
+    if($stmt){
+        return true;
     }
     return false;
 }

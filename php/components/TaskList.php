@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                                         <div>
                                             <div class="btn-group">
                                                 <button class="btn btn-danger btn-sm" onclick="window.location.href='deleteTask.php?taskid=<?php echo $item['task_id'];?>'">Delete</button>
-                                                <button class="btn btn-secondary btn-sm">Modify</button>
+                                                <button class="btn btn-secondary btn-sm" onclick="window.location.href='modifyTask.php?taskid=<?php echo $item['task_id'];?>'">Modify</button>
                                             </div>
                                         </div>
                                         <?php endif;?>
