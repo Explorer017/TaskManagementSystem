@@ -183,4 +183,25 @@ function getObserverListsForCurrentUser(){
     return $resultArray;
 }
 
+function doesUserExist($username){
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT user_id FROM Users WHERE user_name = :username";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":username", $username, SQLITE3_TEXT);
+
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if (!isset($resultArray)){
+        return false;
+    }
+    else if (isset($resultArray[0]['user_id'])){
+        return true;
+    }
+    return false;
+}
+
 ?>

@@ -19,7 +19,11 @@
         if(empty($_POST["collabUsername"])){
             $collabUsernameError = "Username of collaborator is required";
             $is_form_valid = false;
-        } else {
+        } else if(!doesUserExist($_POST["collabUsername"])){
+            $collabUsernameError = "Collaborator does not exist";
+            $is_form_valid = false;
+        }
+        else {
             $collabUsername = htmlspecialchars($_POST["collabUsername"]);
         }
         if (empty($_POST["addOrRemove"]) || ($_POST["addOrRemove"] != "add" && $_POST["addOrRemove"] != "remove")){
@@ -52,6 +56,7 @@
             } else if ($_POST["addOrRemove"] == "remove" && $type == "observe"){
                 removeObserverFromList($list_id, $uid);
             }
+            header('Location: index.php?listid='.$list_id);
         }
 
     }
@@ -99,7 +104,7 @@
                         <input type="submit" value="Add collaborator" class="btn btn-primary"/>
                     </div>
                 </div>
-                <div id="collabUsernameError" class="invalid-feedback"><?php echo $collabUsernameError?></div>
+                <div id="collabUsernameError" class=""><?php echo $collabUsernameError?></div>
             </form>
         </div>
 
@@ -123,7 +128,7 @@
                         <input type="submit" value="Remove collaborator" class="btn btn-danger"/>
                     </div>
                 </div>
-                <div id="collabUsernameError" class="invalid-feedback"><?php echo $collabUsernameError?></div>
+                <div id="collabUsernameError" class=""><?php echo $collabUsernameError?></div>
             </form>
         </div>
 
@@ -141,7 +146,7 @@
                         <input type="submit" value="Add observer" class="btn btn-primary"/>
                     </div>
                 </div>
-                <div id="collabUsernameError" class="invalid-feedback"><?php echo $collabUsernameError?></div>
+                <div id="collabUsernameError" class=""><?php echo $collabUsernameError?></div>
             </form>
         </div>
 
@@ -165,7 +170,7 @@
                         <input type="submit" value="Remove observer" class="btn btn-danger"/>
                     </div>
                 </div>
-                <div id="collabUsernameError" class="invalid-feedback"><?php echo $collabUsernameError?></div>
+                <div id="collabUsernameError" class=""><?php echo $collabUsernameError?></div>
             </form>
         </div>
     </div>

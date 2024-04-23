@@ -63,7 +63,7 @@ function getListName($listID)
 function getUncompletedTasksFromList($listID){
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
-    if(!checkUserListAccess($listID, $userID) AND !checkCollabListAccess($listID, $userID)){
+    if(!checkUserListAccess($listID, $userID) AND !checkCollabListAccess($listID, $userID) AND !checkObserverListAccess($listID, $userID)) {
         return false;
     }
 
@@ -87,7 +87,7 @@ function getUncompletedTasksFromList($listID){
 function getCompletedTasksFromList($listID){
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
-    if(!checkUserListAccess($listID, $userID)  AND !checkCollabListAccess($listID, $userID)){
+    if(!checkUserListAccess($listID, $userID)  AND !checkCollabListAccess($listID, $userID) AND !checkObserverListAccess($listID, $userID)){
         return false;
     }
 
@@ -205,7 +205,7 @@ function getUncompletedSubtasksFromTask($task_id){
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
     $listID = getListIDFromTaskID($task_id);
-    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID))){
+    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID) || checkObserverListAccess($listID, $userID))){
         return false;
     }
 
@@ -230,7 +230,7 @@ function getCompletedSubtasksFromTask($task_id){
     // verify the user is allowed to access this list
     $userID = getUIDFromCreds();
     $listID = getListIDFromTaskID($task_id);
-    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID))){
+    if(!(checkUserListAccess($listID, $userID) || checkCollabListAccess($listID, $userID) || checkObserverListAccess($listID, $userID))){
         return false;
     }
 
@@ -399,6 +399,27 @@ function unassignTaskToUser($task_id){
         return true;
     }
     return false;
+}
+
+function checkObserverListAccess($listID, $userID)
+{
+    $db = new SQLite3("../db/database.db");
+    $SQL = "SELECT list_id FROM  UserLists WHERE user_id = :uid AND list_id = :lid AND observer = 1 AND collaborator = 0";
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":lid", $listID, SQLITE3_INTEGER);
+    $stmt->bindValue(":uid", $userID, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    while($row = $result->fetchArray()){
+        $resultArray [] = $row;
+    }
+    if (!isset($resultArray)) {
+        return false;
+    }
+    if ($listID == $resultArray[0]["list_id"]){
+        return true;
+    }
 }
 
 ?>

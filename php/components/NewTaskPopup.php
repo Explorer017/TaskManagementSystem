@@ -18,8 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'new'){
         $dueDate = htmlspecialchars($_POST["TaskDueDate"]);
     }
     if (empty($_POST["TaskPriority"]) or $_POST["TaskPriority"] == "none"){
+        /*
         $priorityError = "Task Priority is required";
         $isFormValid = false;
+        */
+        $priority = null;
+
     } else {
         $priority = htmlspecialchars($_POST["TaskPriority"]);
     }

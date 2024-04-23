@@ -9,7 +9,7 @@ $isFormValid = true;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'newsubtask'){
     if (empty($_POST["TaskName"]) or $_POST["TaskName"] == "none"){
-        $taskNameError = "Task Name is required";
+        $taskNameError = "Subtask Name is required";
         $isFormValid = false;
     } else {
         $subTaskName = htmlspecialchars($_POST["TaskName"]);
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'newsubtask'){
         $subTaskDueDate = htmlspecialchars($_POST["TaskDueDate"]);
     }
     if (empty($_POST["TaskPriority"]) or $_POST["TaskPriority"] == "none"){
-        $priorityError = "Task Priority is required";
+        $priorityError = "Subtask Priority is required";
         $isFormValid = false;
     } else {
         $subTaskPriority = htmlspecialchars($_POST["TaskPriority"]);
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'newsubtask'){
 
     if($isFormValid){
         $task = newSubTask($taskId, $subTaskName, 0, $subTaskDueDate, $subTaskPriority);
-        //Header("Location: index.php?listid=".getListIDFromTaskID($taskId));
+        Header("Location: index.php?listid=".getListIDFromTaskID($taskId));
     }
 }
 ?>

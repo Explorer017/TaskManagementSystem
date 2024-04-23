@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                                             <?php if(getUncompletedSubtasksFromTask($item['task_id']) != null): ?>
                                             <div class="d-flex flex-row pb-1">
                                                 <div>
-                                                    <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button>
+                                                    <?php if (!checkObserverListAccess($listid, getUIDFromCreds())):?> <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button> <?php endif;?>
                                                 </div>
                                             </div>
                                                 <?php $bgcolour = true;?>
@@ -143,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                                             <?php else:?>
                                             <div class="d-flex">
                                                 <i class="flex-grow-1 col">No subtasks</i>
-                                                <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button>
+                                                <?php if (!checkObserverListAccess($listid, getUIDFromCreds())):?> <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button> <?php endif;?>
                                             </div>
                                             <?php endif;?>
                                         </div>
@@ -188,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                                                 <?php endforeach;?>
                                             <?php else:?>
                                                 <div>
-                                                    <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button>
+                                                    <?php if (!checkObserverListAccess($listid, getUIDFromCreds())):?> <button class="btn btn-primary btn-sm" type="submit" onclick="window.location.href='newSubTask.php?taskid=<?php echo $item['task_id']?>'">New Subtask</button> <?php endif;?>
                                                 </div>
                                             <?php endif;?>
                                         </div>
