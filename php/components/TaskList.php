@@ -75,6 +75,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                                             <h5><?php echo $item['task_name']?></h5>
                                         </div>
                                         <br/>
+                                        <?php if (checkUserListAccess($listid, getUIDFromCreds())):?>
+                                        <div>
+                                            <div class="btn-group">
+                                                <button class="btn btn-danger btn-sm" onclick="window.location.href='deleteTask.php?taskid=<?php echo $item['task_id'];?>'">Delete</button>
+                                                <button class="btn btn-secondary btn-sm">Modify</button>
+                                            </div>
+                                        </div>
+                                        <?php endif;?>
                                         <?php if(isset($item['assigned_collaborator_id'])){
                                                 echo "<i> Assigned to <b>".getUsernameFromUID($item['assigned_collaborator_id']).'</b></i> <br/>';
                                                 if (checkUserListAccess($listid, getUIDFromCreds())):?>

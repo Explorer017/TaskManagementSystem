@@ -196,6 +196,7 @@ function getTaskName($task_id){
     $result = $stmt->execute();
 
     $row = $result->fetchArray();
+
     return $row["task_name"];
 }
 
@@ -420,6 +421,38 @@ function checkObserverListAccess($listID, $userID)
     if ($listID == $resultArray[0]["list_id"]){
         return true;
     }
+}
+
+function deleteTask($taskid, $listid)
+{
+    // verify the user is allowed to access this list
+    session_start();
+    $userID = getUIDFromCreds();
+    echo "uid:".$userID." lid:".$listid;
+    if(!checkUserListAccess($listid, $userID)){
+        return false;
+    }
+
+    $db = new SQLite3("../db/database.db");
+    $SQL = 'DELETE FROM Tasks WHERE task_id = :tid';
+    $stmt = $db->prepare($SQL);
+
+    $stmt->bindValue(":tid", $taskid, SQLITE3_INTEGER);
+
+    $result = $stmt->execute();
+    if($result){
+        // delete associated subtasks
+        $SQL = 'DELETE FROM SubTasks WHERE task_id = :tid';
+        $stmt = $db->prepare($SQL);
+
+        $stmt->bindValue(":tid", $taskid, SQLITE3_INTEGER);
+
+        $result = $stmt->execute();
+        if($result){
+            return true;
+        }
+    }
+    return false;
 }
 
 ?>
