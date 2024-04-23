@@ -34,7 +34,7 @@
         You have not created a list! Click the <b>"New List"</b> button to get started!
     <?php endif;?>
     <hr/>
-    <h5>Lists shared with me</h5>
+    <h5>Lists I collaborate on</h5>
     <?php
     if (getCollabListsForCurrentUser() != null):
         foreach (getCollabListsForCurrentUser() as $listID):
@@ -59,4 +59,10 @@
      else:?>
      No one has shared a list with you!
     <?php endif;?>
+    <hr/>
+    <h5>Lists I observe</h5>
+    <?php if (false):?>
+    <?php else:?>
+    No one as added you as a list observer!
+    <?endif;?>
 </ul>

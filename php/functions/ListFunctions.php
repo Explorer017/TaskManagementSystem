@@ -178,3 +178,26 @@ function checkIfListHasCollaborators($listID){
     }
     return true;
 }
+
+function addUserToListAsObserver($listID, $observerUserID){
+    // verify the user is allowed to access this list
+    session_start();
+    $userID = getUIDFromCreds();
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+
+    $db = new SQLite3("../db/database.db");
+    $sql = "INSERT INTO UserLists (user_id, list_id, collaborator, observer) VALUES (:uid, :lid, 0, 1)";
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindValue(":uid", $observerUserID, SQLITE3_INTEGER);
+    $stmt->bindValue(":lid", $listID, SQLITE3_INTEGER);
+    $stmt->execute();
+
+    if($stmt){
+        return true;
+    }
+    return false;
+
+}
