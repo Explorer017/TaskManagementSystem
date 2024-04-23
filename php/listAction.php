@@ -10,7 +10,7 @@
             header('Location: index.php');
         } elseif($_POST['type'] == 'leave'){
             leaveList($_POST['listid']);
-            header('Location: index.php');
+            //header('Location: index.php');
         }
     }
     else if(!isset($_GET['action'])){

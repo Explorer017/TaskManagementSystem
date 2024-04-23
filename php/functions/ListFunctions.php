@@ -103,7 +103,7 @@ function leaveList($listID){
     // verify the user is allowed to access this list
     session_start();
     $userID = getUIDFromCreds();
-    if(!checkCollabListAccess($listID, $userID)){
+    if(!(checkCollabListAccess($listID, $userID) || checkObserverListAccess($listID, $userID))){
         return false;
     }
 
