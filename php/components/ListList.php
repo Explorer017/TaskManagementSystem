@@ -64,5 +64,5 @@
     <?php if (false):?>
     <?php else:?>
     No one as added you as a list observer!
-    <?endif;?>
+    <?php endif;?>
 </ul>

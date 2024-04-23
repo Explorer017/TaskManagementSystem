@@ -201,3 +201,26 @@ function addUserToListAsObserver($listID, $observerUserID){
     return false;
 
 }
+
+function removeObserverFromList($listID, $collabUserID){
+
+    // verify the user is allowed to access this list
+    session_start();
+    $userID = getUIDFromCreds();
+    if(!checkUserListAccess($listID, $userID)){
+        return false;
+    }
+    $db = new SQLite3("../db/database.db");
+    $sql = "DELETE FROM UserLists WHERE list_id = :lid AND user_id = :uid AND observer = 1";
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindValue(":lid", $listID, SQLITE3_INTEGER);
+    $stmt->bindValue(":uid", $collabUserID, SQLITE3_INTEGER);
+
+    $stmt->execute();
+    if($stmt){
+        return true;
+    }
+
+    return false;
+}
