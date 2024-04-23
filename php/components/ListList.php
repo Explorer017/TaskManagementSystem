@@ -81,6 +81,6 @@
             </li>
         <?php endif;?>
     <?php endforeach; else:?>
-    No one as added you as a list observer!
+    No one has added you as a list observer!
     <?php endif;?>
 </ul>
