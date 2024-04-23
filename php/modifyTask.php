@@ -58,13 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <div class="mb-3">
                     <label for="TaskName" class="form-label">Task Name</label>
                     <input type="text" class="form-control" id="TaskName" name="TaskName" value="<?php echo $task['task_name']?>"/>
+                    <label><?php echo $taskNameError?></label>
                 </div>
                 <div class="row">
-                    <div class="mb-3 col">
+                    <div class="col">
                         <label for="TaskDueDate" class="form-label">Due Date</label>
                         <input type="date" class="form-control" id="TaskDueDate" name="TaskDueDate" value="<?php echo $task['task_due_date']?>"/>
                     </div>
-                    <div class="mb-3 col">
+                    <div class="col">
                         <label for="TaskPriority" class="form-label">Priority</label>
                         <select class="form-select" id="TaskPriority" name="TaskPriority">
                             <?php if ($task['task_priority'] == 0){
@@ -92,8 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                     </div>
                 </div>
             </div>
-            <div class="">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+            <div class="text-center p-5">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.php?listid=<?php echo $listid?>'">Back</button>
                 <button type="submit" class="btn btn-primary" value="createTask" name="action">Modify Task</button>
             </div>
         </form>
