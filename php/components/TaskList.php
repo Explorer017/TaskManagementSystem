@@ -173,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                                                         $bgcolour = true;
                                                     }?>>
                                                         <div class="p-1">
-                                                            <button form="uncompleteSubtask<?php echo $subtask['sub_task_id']?>" class="btn btn-secondary btn-sm" type="submit">❌</button>
+                                                            <button form="uncompleteSubtask<?php echo $subtask['sub_task_id']?>" class="btn btn-secondary btn-sm" type="submit"><i class="bi bi-arrow-counterclockwise"></i></button>
                                                         </div>
                                                         <div class="p-1 flex-grow-1">
                                                             <i><b><?php echo $subtask["sub_task_name"];?></b></i>
@@ -223,7 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" and $_GET['type'] == 'complete'){
                     <ul>
                         <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?taskid=".$item['task_id']."&type=uncomplete&listid=".$listid;?>" method="post">
                             <div class="row">
-                                <button class='btn btn-secondary col' style="flex: none; width: 10%; min-width: 100px; height: 10%; min-height: 100px;" type='submit' name=<?php echo $item['task_id']?>>❌</button>
+                                <button class='btn btn-secondary col' style="flex: none; width: 10%; min-width: 100px; height: 10%; min-height: 100px;" type='submit' name=<?php echo $item['task_id']?>><i class="bi bi-arrow-counterclockwise"></i></button>
                                 <div class="col">
                                     <h5><?php echo $item['task_name']?></h5>
                                     <br/>
