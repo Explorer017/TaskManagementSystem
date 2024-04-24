@@ -12,7 +12,7 @@ if (array_key_exists('taskid', $_GET)){
 $listid = getListIDFromTaskID($taskid);
 
 $task = getTaskInfo($taskid);
-
+$taskNameError = "";
 $form_is_valid = true;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
