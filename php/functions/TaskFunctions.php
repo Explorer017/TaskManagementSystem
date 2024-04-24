@@ -118,7 +118,7 @@ function newTask($task_name, $list_id, $order_in_list, $task_due, $task_priority
     $stmt->bindValue(":completed", 0, SQLITE3_INTEGER);
     $stmt->bindValue(":list", $list_id, SQLITE3_INTEGER);
     $stmt->bindValue(":order", $order_in_list, SQLITE3_INTEGER);
-    $stmt->bindValue(":due", $task_due, SQLITE3_INTEGER);
+    $stmt->bindValue(":due", $task_due, SQLITE3_TEXT);
     $stmt->bindValue(":priority", $task_priority, SQLITE3_INTEGER);
     $stmt->execute();
 
@@ -485,7 +485,7 @@ function modifyTask($task_id, $task_name, $task_due, $task_priority){
     $stmt = $db->prepare($sql);
 
     $stmt->bindValue(":name", $task_name, SQLITE3_TEXT);
-    $stmt->bindValue(":due", $task_due, SQLITE3_INTEGER);
+    $stmt->bindValue(":due", $task_due, SQLITE3_TEXT);
     $stmt->bindValue(":priority", $task_priority, SQLITE3_INTEGER);
     $stmt->bindValue(":tid", $task_id, SQLITE3_INTEGER);
     $stmt->execute();

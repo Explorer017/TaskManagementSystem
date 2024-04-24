@@ -34,7 +34,6 @@
             <h3>Hello, <?php echo $name?></h3>
             <form class="d-flex flex-row mb-3 justify-content-between" method="post" action="accountOptions.php">
                 <button class="btn btn-secondary" style="width: 40%" type="submit" name="signOut" value="signOut">Sign Out</button>
-                <button class="btn btn-secondary" style="width: 40%" type="submit">Account Options</button>
             </form>
         </div>
     </div>
