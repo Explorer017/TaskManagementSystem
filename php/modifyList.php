@@ -68,11 +68,13 @@
 
     <div>
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <!--
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="pills-editlistname-tab" data-bs-toggle="pill" data-bs-target="#pills-editlistname" type="button" role="tab" aria-controls="pills-addcollab" aria-selected="true">Edit list name</button>
             </li>
+            -->
             <li class="nav-item" role="presentation">
-                <button class="nav-link " id="pills-addcollab-tab" data-bs-toggle="pill" data-bs-target="#pills-addcollab" type="button" role="tab" aria-controls="pills-addcollab" aria-selected="false">Add Collaborator</button>
+                <button class="nav-link active" id="pills-addcollab-tab" data-bs-toggle="pill" data-bs-target="#pills-addcollab" type="button" role="tab" aria-controls="pills-addcollab" aria-selected="false">Add Collaborator</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="pills-removecollab-tab" data-bs-toggle="pill" data-bs-target="#pills-removecollab" type="button" role="tab" aria-controls="pills-removecollab" aria-selected="false">Remove Collaborator</button>
@@ -87,10 +89,11 @@
     </div>
 
     <div class="tab-content" id="pills-tabContent">
+        <!--
         <div class="tab-pane fade show active" id="pills-editlistname" role="tabpanel" aria-labelledby="pills-editlistname-tab" tabindex="0">
         </div>
-
-        <div class="tab-pane fade show" id="pills-addcollab" role="tabpanel" aria-labelledby="pills-addcollab-tab" tabindex="0">
+    -->
+        <div class="tab-pane fade show active" id="pills-addcollab" role="tabpanel" aria-labelledby="pills-addcollab-tab" tabindex="0">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?listid=".$list_id;?>" method="post">
                 <h3>Add Collaborator</h3>
                 <label for="collabUsername">Collaborator Username</label>
@@ -153,7 +156,7 @@
         <div class="tab-pane fade show" id="pills-removeobserver" role="tabpanel" aria-labelledby="pills-removeobserver-tab" tabindex="0">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?listid=".$list_id;?>" method="post">
                 <h3>Observer Collaborator</h3>
-                <label for="collabUsername">Observer Username</label>
+                <label for="collabUsername">Remove Observer</label>
                 <input type="hidden" name="addOrRemove" value="remove"/>
                 <input type="hidden" name="type" value="observe"/>
                 <div class="row">
